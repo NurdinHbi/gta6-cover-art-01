@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vice City Nights — GTA 6 Cover Art Maker</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">VC</span>
+    <div>
+      <h1>VICE CITY NIGHTS</h1>
+      <p>GTA 6-style cover art maker &middot; your photo, your caption, one PNG</p>
+    </div>
+  </div>
+  <div class="steps"><span class="step"><b>1</b> Pick a photo</span><span class="step"><b>2</b> Choose a layout</span><span class="step"><b>3</b> Export PNG</span></div>
+</header>
+
+<main class="workspace">
+  <section class="controls" aria-label="Cover controls">
+    <div class="group">
+      <h2>Photos</h2>
+      <p class="hint">Photos stay on your machine &mdash; they are read with FileReader and never uploaded.</p>
+      <div class="tray" id="tray"></div>
+      <div class="row">
+        <label class="btn upload-btn" for="upload">+ Upload photo(s)</label>
+        <input id="upload" type="file" accept="image/*" multiple hidden>
+        <button class="btn ghost" id="fillAll" type="button">Fill all panels</button>
+      </div>
+      <p class="hint">Click a photo to put it in the selected panel. Click a panel in the preview to select it.</p>
+    </div>
+
+    <div class="group">
+      <h2>Layout</h2>
+      <div class="choices" id="layoutChoices">
+        <button type="button" data-layout="hero" class="choice active">Hero + strip</button>
+        <button type="button" data-layout="trio" class="choice">Three panels</button>
+        <button type="button" data-layout="grid" class="choice">Four grid</button>
+        <button type="button" data-layout="single" class="choice">Single shot</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>Colour grade</h2>
+      <div class="choices" id="gradeChoices">
+        <button type="button" data-grade="sunset" class="choice active">Sunset warm</button>
+        <button type="button" data-grade="neon" class="choice">Neon nights</button>
+        <button type="button" data-grade="noir" class="choice">Noir</button>
+        <button type="button" data-grade="pastel" class="choice">Pastel dawn</button>
+      </div>
+    </div>
+
+    <div class="group">
+      <h2>Caption</h2>
+      <label class="field">Kicker <input id="kicker" type="text" value="LEONIDA &middot; 2026" maxlength="40"></label>
+      <label class="field">Title <input id="title" type="text" value="VICE CITY NIGHTS" maxlength="48"></label>
+      <label class="field">Subtitle <input id="subtitle" type="text" value="Two friends. One last score." maxlength="80"></label>
+    </div>
+
+    <div class="group">
+      <h2>Selected panel</h2>
+      <p class="hint" id="panelLabel">Panel 1 of 4</p>
+      <label class="field">Zoom <input id="zoom" type="range" min="1" max="2.5" step="0.05" value="1"></label>
+      <div class="row">
+        <button class="btn ghost" id="fitBtn" type="button">Fit</button>
+        <button class="btn ghost" id="fillBtn" type="button">Fill frame</button>
+      </div>
+      <p class="hint">Drag on a panel in the preview to pan the photo inside it.</p>
+    </div>
+
+    <div class="group">
+      <h2>Export size</h2>
+      <div class="choices" id="sizeChoices">
+        <button type="button" data-size="1080x1080" class="choice">1080 &times; 1080</button>
+        <button type="button" data-size="1080x1350" class="choice active">1080 &times; 1350</button>
+        <button type="button" data-size="1920x1080" class="choice">1920 &times; 1080</button>
+      </div>
+      <button class="btn export" id="exportBtn" type="button">Download PNG</button>
+      <p class="hint" id="status">Ready.</p>
+    </div>
+  </section>
+
+  <section class="preview" aria-label="Live preview">
+    <canvas id="stage" width="540" height="675"></canvas>
+    <p class="preview-note">Live preview &mdash; what you see is what the PNG gets.</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <p>Original art and lettering made for this app. Not affiliated with Rockstar Games; no Rockstar logo, artwork, character or font is used. Sample photos are original procedural illustrations shipped with the app.</p>
+</footer>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
