@@ -9,89 +9,96 @@
 <body>
 <header class="topbar">
   <div class="brand">
-    <span class="brand-mark">VC</span>
-    <div>
-      <h1>VICE CITY NIGHTS</h1>
-      <p>GTA 6-style cover art maker &middot; your photo, your caption, one PNG</p>
-    </div>
+    <h1>VICE CITY NIGHTS</h1>
+    <p class="tagline">GTA 6-style cover art maker</p>
   </div>
-  <div class="steps"><span class="step"><b>1</b> Pick a photo</span><span class="step"><b>2</b> Choose a layout</span><span class="step"><b>3</b> Export PNG</span></div>
+  <div class="sunset-bar" aria-hidden="true"></div>
 </header>
 
-<main class="workspace">
+<main class="editor">
   <section class="controls" aria-label="Cover controls">
-    <div class="group">
-      <h2>Photos</h2>
-      <p class="hint">Photos stay on your machine &mdash; they are read with FileReader and never uploaded.</p>
-      <div class="tray" id="tray"></div>
-      <div class="row">
-        <label class="btn upload-btn" for="upload">+ Upload photo(s)</label>
-        <input id="upload" type="file" accept="image/*" multiple hidden>
-        <button class="btn ghost" id="fillAll" type="button">Fill all panels</button>
+    <div class="panel">
+      <h2>1 · Your photos</h2>
+      <label class="file-btn" for="photo-input">Choose photos…</label>
+      <input id="photo-input" type="file" accept="image/*" multiple hidden>
+      <p class="hint">JPG or PNG from your machine. Nothing is uploaded — your photos never leave your machine.</p>
+      <div class="sample-row">
+        <button id="sample-boulevard" type="button" class="ghost-btn">Use sample: Boulevard</button>
+        <button id="sample-pier" type="button" class="ghost-btn">Use sample: Pier</button>
       </div>
-      <p class="hint">Click a photo to put it in the selected panel. Click a panel in the preview to select it.</p>
+      <p class="hint" id="photo-status">No photo loaded yet — pick one, or try a sample.</p>
     </div>
 
-    <div class="group">
-      <h2>Layout</h2>
-      <div class="choices" id="layoutChoices">
-        <button type="button" data-layout="hero" class="choice active">Hero + strip</button>
-        <button type="button" data-layout="trio" class="choice">Three panels</button>
-        <button type="button" data-layout="grid" class="choice">Four grid</button>
-        <button type="button" data-layout="single" class="choice">Single shot</button>
-      </div>
+    <div class="panel">
+      <h2>2 · Caption</h2>
+      <label for="title-input">Main title</label>
+      <input id="title-input" type="text" value="VICE CITY NIGHTS" maxlength="40">
+      <label for="subtitle-input">Subtitle</label>
+      <input id="subtitle-input" type="text" value="A Leonida Story" maxlength="60">
+      <label for="footer-input">Footer line</label>
+      <input id="footer-input" type="text" value="VICE CITY · LEONIDA" maxlength="60">
     </div>
 
-    <div class="group">
-      <h2>Colour grade</h2>
-      <div class="choices" id="gradeChoices">
-        <button type="button" data-grade="sunset" class="choice active">Sunset warm</button>
-        <button type="button" data-grade="neon" class="choice">Neon nights</button>
-        <button type="button" data-grade="noir" class="choice">Noir</button>
-        <button type="button" data-grade="pastel" class="choice">Pastel dawn</button>
+    <div class="panel">
+      <h2>3 · Layout</h2>
+      <div class="choice-row" id="layout-picker">
+        <button type="button" data-layout="hero" class="choice active">Hero + 2</button>
+        <button type="button" data-layout="triptych" class="choice">Triptych</button>
+        <button type="button" data-layout="single" class="choice">Single</button>
       </div>
+      <p class="hint">Hero + 2: one big panel on top, two small below. Triptych: three equal columns. Single: one full-bleed photo.</p>
     </div>
 
-    <div class="group">
-      <h2>Caption</h2>
-      <label class="field">Kicker <input id="kicker" type="text" value="LEONIDA &middot; 2026" maxlength="40"></label>
-      <label class="field">Title <input id="title" type="text" value="VICE CITY NIGHTS" maxlength="48"></label>
-      <label class="field">Subtitle <input id="subtitle" type="text" value="Two friends. One last score." maxlength="80"></label>
+    <div class="panel">
+      <h2>4 · Colour grade</h2>
+      <div class="choice-row" id="grade-picker">
+        <button type="button" data-grade="sunset" class="choice active">Sunset</button>
+        <button type="button" data-grade="neon" class="choice">Neon</button>
+        <button type="button" data-grade="midnight" class="choice">Midnight</button>
+      </div>
+      <p class="hint">Sunset: orange-pink-purple wash. Neon: cyan-magenta glow on dark. Midnight: deep blue-purple night.</p>
     </div>
 
-    <div class="group">
-      <h2>Selected panel</h2>
-      <p class="hint" id="panelLabel">Panel 1 of 4</p>
-      <label class="field">Zoom <input id="zoom" type="range" min="1" max="2.5" step="0.05" value="1"></label>
-      <div class="row">
-        <button class="btn ghost" id="fitBtn" type="button">Fit</button>
-        <button class="btn ghost" id="fillBtn" type="button">Fill frame</button>
-      </div>
-      <p class="hint">Drag on a panel in the preview to pan the photo inside it.</p>
+    <div class="panel">
+      <h2>5 · Crop &amp; position</h2>
+      <label for="panel-select">Panel</label>
+      <select id="panel-select">
+        <option value="0">Panel 1</option>
+        <option value="1">Panel 2</option>
+        <option value="2">Panel 3</option>
+      </select>
+      <label for="zoom-range">Zoom <span id="zoom-value">100%</span></label>
+      <input id="zoom-range" type="range" min="100" max="300" value="100" step="5">
+      <label for="x-range">Move left / right <span id="x-value">0</span></label>
+      <input id="x-range" type="range" min="-100" max="100" value="0" step="1">
+      <label for="y-range">Move up / down <span id="y-value">0</span></label>
+      <input id="y-range" type="range" min="-100" max="100" value="0" step="1">
+      <label class="check-row"><input id="flip-check" type="checkbox"> Flip photo horizontally</label>
+      <button id="reset-crop" type="button" class="ghost-btn">Reset this panel</button>
     </div>
 
-    <div class="group">
-      <h2>Export size</h2>
-      <div class="choices" id="sizeChoices">
-        <button type="button" data-size="1080x1080" class="choice">1080 &times; 1080</button>
-        <button type="button" data-size="1080x1350" class="choice active">1080 &times; 1350</button>
-        <button type="button" data-size="1920x1080" class="choice">1920 &times; 1080</button>
+    <div class="panel">
+      <h2>6 · Export</h2>
+      <div class="choice-row" id="size-picker">
+        <button type="button" data-size="1080x1080" class="choice active">1080 × 1080</button>
+        <button type="button" data-size="1080x1350" class="choice">1080 × 1350</button>
+        <button type="button" data-size="1920x1080" class="choice">1920 × 1080</button>
       </div>
-      <button class="btn export" id="exportBtn" type="button">Download PNG</button>
-      <p class="hint" id="status">Ready.</p>
+      <button id="export-btn" type="button" class="export-btn">Export PNG</button>
+      <p class="hint">Exports at the exact post size above. Your photos never leave your machine.</p>
     </div>
   </section>
 
   <section class="preview" aria-label="Live preview">
-    <canvas id="stage" width="540" height="675"></canvas>
-    <p class="preview-note">Live preview &mdash; what you see is what the PNG gets.</p>
+    <div class="canvas-wrap">
+      <canvas id="poster" width="1080" height="1080"></canvas>
+    </div>
+    <p class="preview-note">Live preview — what you see is what exports.</p>
+    <p class="preview-note dim">Original design. Not affiliated with Rockstar Games; no Rockstar logo, artwork or font is used.</p>
   </section>
 </main>
 
-<footer class="foot">
-  <p>Original art and lettering made for this app. Not affiliated with Rockstar Games; no Rockstar logo, artwork, character or font is used. Sample photos are original procedural illustrations shipped with the app.</p>
-</footer>
-
-<script type="module" src="src/main.js"></script>
+<script src="src/cover.js"></script>
+<script src="src/main.js"></script>
 </body>
 </html>
